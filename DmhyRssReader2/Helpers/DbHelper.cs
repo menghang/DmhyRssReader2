@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using DmhyRssReader2.Models;
+using DmhyRssReader2.Utils;
 
 namespace DmhyRssReader2.Helpers
 {
@@ -19,6 +20,7 @@ namespace DmhyRssReader2.Helpers
             {
                 if (!CheckDatabase())
                 {
+                    LogUtil.Log("Database is broken.");
                     CreateDatabase();
                     return new ObservableCollection<ConfigVM>();
                 }
@@ -227,6 +229,7 @@ namespace DmhyRssReader2.Helpers
                     connection.Close();
                 }
             }
+            LogUtil.Log("New database is created.");
         }
 
         private ObservableCollection<ConfigVM> GetConfigList()
@@ -404,6 +407,7 @@ namespace DmhyRssReader2.Helpers
             if (!VideoExisted(v))
             {
                 AddVideo(v);
+                LogUtil.Log(string.Format("Video [{0}] is added to database.", v.Title));
             }
         }
     }
