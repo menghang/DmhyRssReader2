@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading;
@@ -40,19 +36,10 @@ namespace DmhyRssReader2.Helpers
             return await GetRssAsync(SearchRss, param);
         }
 
-        public async Task<List<VideoVM>> GetTeamAsync(int team)
-        {
-            return await GetRssAsync(string.Format(TeamRss, team));
-        }
-        public async Task<List<VideoVM>> GetCategoryAsync(int category)
-        {
-            return await GetRssAsync(string.Format(SortRss, category));
-        }
+        public async Task<List<VideoVM>> GetTeamAsync(int team) => await GetRssAsync(string.Format(TeamRss, team));
+        public async Task<List<VideoVM>> GetCategoryAsync(int category) => await GetRssAsync(string.Format(SortRss, category));
 
-        public async Task<List<VideoVM>> GetAuthorAsync(int author)
-        {
-            return await GetRssAsync(string.Format(AuthorRss, author));
-        }
+        public async Task<List<VideoVM>> GetAuthorAsync(int author) => await GetRssAsync(string.Format(AuthorRss, author));
 
         private async Task<List<VideoVM>> GetRssAsync(string url, Dictionary<string, string> param = null)
         {

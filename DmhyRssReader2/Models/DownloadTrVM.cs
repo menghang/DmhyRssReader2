@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DmhyRssReader2.Models
+﻿namespace DmhyRssReader2.Models
 {
     class DownloadTrVM : BaseViewModel
     {
@@ -36,10 +30,7 @@ namespace DmhyRssReader2.Models
             set => SetProperty(ref this.testResult, value);
         }
 
-        public string FullPath
-        {
-            get => this.addr + ":" + this.port + this.rpcPath;
-        }
+        public string FullPath => this.addr + ":" + this.port + this.rpcPath;
 
         public DownloadTrVM()
         {

@@ -3,11 +3,8 @@
 // http://sh.codeplex.com
 // Dedicated to Public Domain
 
-using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Data;
-using System.Globalization;
 
 namespace System.Data.SQLite
 {
@@ -22,19 +19,13 @@ namespace System.Data.SQLite
 
     public class SQLiteHelper
     {
-        SQLiteCommand cmd = null;
+        private readonly SQLiteCommand cmd = null;
 
-        public SQLiteHelper(SQLiteCommand command)
-        {
-            cmd = command;
-        }
+        public SQLiteHelper(SQLiteCommand command) => this.cmd = command;
 
         #region DB Info
 
-        public DataTable GetTableStatus()
-        {
-            return Select("SELECT * FROM sqlite_master;");
-        }
+        public DataTable GetTableStatus() => Select("SELECT * FROM sqlite_master;");
 
         public DataTable GetTableList()
         {
@@ -45,20 +36,16 @@ namespace System.Data.SQLite
             {
                 string t = dt.Rows[i]["name"] + "";
                 if (t != "sqlite_sequence")
+                {
                     dt2.Rows.Add(t);
+                }
             }
             return dt2;
         }
 
-        public DataTable GetColumnStatus(string tableName)
-        {
-            return Select(string.Format("PRAGMA table_info(`{0}`);", tableName));
-        }
+        public DataTable GetColumnStatus(string tableName) => Select(string.Format("PRAGMA table_info(`{0}`);", tableName));
 
-        public DataTable ShowDatabase()
-        {
-            return Select("PRAGMA database_list;");
-        }
+        public DataTable ShowDatabase() => Select("PRAGMA database_list;");
 
         #endregion
 
@@ -66,26 +53,23 @@ namespace System.Data.SQLite
 
         public void BeginTransaction()
         {
-            cmd.CommandText = "begin transaction;";
-            cmd.ExecuteNonQuery();
+            this.cmd.CommandText = "begin transaction;";
+            this.cmd.ExecuteNonQuery();
         }
 
         public void Commit()
         {
-            cmd.CommandText = "commit;";
-            cmd.ExecuteNonQuery();
+            this.cmd.CommandText = "commit;";
+            this.cmd.ExecuteNonQuery();
         }
 
         public void Rollback()
         {
-            cmd.CommandText = "rollback";
-            cmd.ExecuteNonQuery();
+            this.cmd.CommandText = "rollback";
+            this.cmd.ExecuteNonQuery();
         }
 
-        public DataTable Select(string sql)
-        {
-            return Select(sql, new List<SQLiteParameter>());
-        }
+        public DataTable Select(string sql) => Select(sql, new List<SQLiteParameter>());
 
         public DataTable Select(string sql, Dictionary<string, object> dicParameters = null)
         {
@@ -95,24 +79,21 @@ namespace System.Data.SQLite
 
         public DataTable Select(string sql, IEnumerable<SQLiteParameter> parameters = null)
         {
-            cmd.CommandText = sql;
+            this.cmd.CommandText = sql;
             if (parameters != null)
             {
-                foreach (var param in parameters)
+                foreach (SQLiteParameter param in parameters)
                 {
-                    cmd.Parameters.Add(param);
+                    this.cmd.Parameters.Add(param);
                 }
             }
-            SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
+            SQLiteDataAdapter da = new SQLiteDataAdapter(this.cmd);
             DataTable dt = new DataTable();
             da.Fill(dt);
             return dt;
         }
 
-        public void Execute(string sql)
-        {
-            Execute(sql, new List<SQLiteParameter>());
-        }
+        public void Execute(string sql) => Execute(sql, new List<SQLiteParameter>());
 
         public void Execute(string sql, Dictionary<string, object> dicParameters = null)
         {
@@ -122,21 +103,21 @@ namespace System.Data.SQLite
 
         public void Execute(string sql, IEnumerable<SQLiteParameter> parameters = null)
         {
-            cmd.CommandText = sql;
+            this.cmd.CommandText = sql;
             if (parameters != null)
             {
-                foreach (var param in parameters)
+                foreach (SQLiteParameter param in parameters)
                 {
-                    cmd.Parameters.Add(param);
+                    this.cmd.Parameters.Add(param);
                 }
             }
-            cmd.ExecuteNonQuery();
+            this.cmd.ExecuteNonQuery();
         }
 
         public object ExecuteScalar(string sql)
         {
-            cmd.CommandText = sql;
-            return cmd.ExecuteScalar();
+            this.cmd.CommandText = sql;
+            return this.cmd.ExecuteScalar();
         }
 
         public object ExecuteScalar(string sql, Dictionary<string, object> dicParameters = null)
@@ -147,15 +128,15 @@ namespace System.Data.SQLite
 
         public object ExecuteScalar(string sql, IEnumerable<SQLiteParameter> parameters = null)
         {
-            cmd.CommandText = sql;
+            this.cmd.CommandText = sql;
             if (parameters != null)
             {
-                foreach (var parameter in parameters)
+                foreach (SQLiteParameter parameter in parameters)
                 {
-                    cmd.Parameters.Add(parameter);
+                    this.cmd.Parameters.Add(parameter);
                 }
             }
-            return cmd.ExecuteScalar();
+            return this.cmd.ExecuteScalar();
         }
 
         public dataType ExecuteScalar<dataType>(string sql, Dictionary<string, object> dicParameters = null)
@@ -174,21 +155,21 @@ namespace System.Data.SQLite
 
         public dataType ExecuteScalar<dataType>(string sql, IEnumerable<SQLiteParameter> parameters = null)
         {
-            cmd.CommandText = sql;
+            this.cmd.CommandText = sql;
             if (parameters != null)
             {
-                foreach (var parameter in parameters)
+                foreach (SQLiteParameter parameter in parameters)
                 {
-                    cmd.Parameters.Add(parameter);
+                    this.cmd.Parameters.Add(parameter);
                 }
             }
-            return (dataType)Convert.ChangeType(cmd.ExecuteScalar(), typeof(dataType));
+            return (dataType)Convert.ChangeType(this.cmd.ExecuteScalar(), typeof(dataType));
         }
 
         public dataType ExecuteScalar<dataType>(string sql)
         {
-            cmd.CommandText = sql;
-            return (dataType)Convert.ChangeType(cmd.ExecuteScalar(), typeof(dataType));
+            this.cmd.CommandText = sql;
+            return (dataType)Convert.ChangeType(this.cmd.ExecuteScalar(), typeof(dataType));
         }
 
         private List<SQLiteParameter> GetParametersList(Dictionary<string, object> dicParameters)
@@ -249,27 +230,31 @@ namespace System.Data.SQLite
             sbCol.Append(") ");
             sbVal.Append(");");
 
-            cmd.CommandText = sbCol.ToString() + sbVal.ToString();
+            this.cmd.CommandText = sbCol.ToString() + sbVal.ToString();
 
             foreach (KeyValuePair<string, object> kv in dic)
             {
-                cmd.Parameters.AddWithValue("@v" + kv.Key, kv.Value);
+                this.cmd.Parameters.AddWithValue("@v" + kv.Key, kv.Value);
             }
 
-            cmd.ExecuteNonQuery();
+            this.cmd.ExecuteNonQuery();
         }
 
         public void Update(string tableName, Dictionary<string, object> dicData, string colCond, object varCond)
         {
-            Dictionary<string, object> dic = new Dictionary<string, object>();
-            dic[colCond] = varCond;
+            Dictionary<string, object> dic = new Dictionary<string, object>
+            {
+                [colCond] = varCond
+            };
             Update(tableName, dicData, dic);
         }
 
         public void Update(string tableName, Dictionary<string, object> dicData, Dictionary<string, object> dicCond)
         {
             if (dicData.Count == 0)
+            {
                 throw new Exception("dicData is empty.");
+            }
 
             StringBuilder sbData = new System.Text.StringBuilder();
 
@@ -283,7 +268,9 @@ namespace System.Data.SQLite
             foreach (KeyValuePair<string, object> kv2 in dicCond)
             {
                 if (!_dicTypeSource.ContainsKey(kv2.Key))
+                {
                     _dicTypeSource[kv2.Key] = null;
+                }
             }
 
             sbData.Append("update `");
@@ -295,9 +282,13 @@ namespace System.Data.SQLite
             foreach (KeyValuePair<string, object> kv in dicData)
             {
                 if (firstRecord)
+                {
                     firstRecord = false;
+                }
                 else
+                {
                     sbData.Append(",");
+                }
 
                 sbData.Append("`");
                 sbData.Append(kv.Key);
@@ -314,7 +305,9 @@ namespace System.Data.SQLite
             foreach (KeyValuePair<string, object> kv in dicCond)
             {
                 if (firstRecord)
+                {
                     firstRecord = false;
+                }
                 else
                 {
                     sbData.Append(" and ");
@@ -330,25 +323,22 @@ namespace System.Data.SQLite
 
             sbData.Append(";");
 
-            cmd.CommandText = sbData.ToString();
+            this.cmd.CommandText = sbData.ToString();
 
             foreach (KeyValuePair<string, object> kv in dicData)
             {
-                cmd.Parameters.AddWithValue("@v" + kv.Key, kv.Value);
+                this.cmd.Parameters.AddWithValue("@v" + kv.Key, kv.Value);
             }
 
             foreach (KeyValuePair<string, object> kv in dicCond)
             {
-                cmd.Parameters.AddWithValue("@c" + kv.Key, kv.Value);
+                this.cmd.Parameters.AddWithValue("@c" + kv.Key, kv.Value);
             }
 
-            cmd.ExecuteNonQuery();
+            this.cmd.ExecuteNonQuery();
         }
 
-        public long LastInsertRowId()
-        {
-            return ExecuteScalar<long>("select last_insert_rowid();");
-        }
+        public long LastInsertRowId() => ExecuteScalar<long>("select last_insert_rowid();");
 
         #endregion
 
@@ -371,9 +361,13 @@ namespace System.Data.SQLite
                 }
 
                 if (firstRecord)
+                {
                     firstRecord = false;
+                }
                 else
+                {
                     sb.AppendLine(",");
+                }
 
                 sb.Append(col.ColumnName);
                 sb.Append(" ");
@@ -388,21 +382,30 @@ namespace System.Data.SQLite
                 switch (col.ColDataType)
                 {
                     case ColType.Text:
-                        sb.Append("text"); break;
+                        sb.Append("text");
+                        break;
                     case ColType.Integer:
-                        sb.Append("integer"); break;
+                        sb.Append("integer");
+                        break;
                     case ColType.Decimal:
-                        sb.Append("decimal"); break;
+                        sb.Append("decimal");
+                        break;
                     case ColType.DateTime:
-                        sb.Append("datetime"); break;
+                        sb.Append("datetime");
+                        break;
                     case ColType.BLOB:
-                        sb.Append("blob"); break;
+                        sb.Append("blob");
+                        break;
                 }
 
                 if (col.PrimaryKey)
+                {
                     sb.Append(" primary key");
+                }
                 else if (col.NotNull)
+                {
                     sb.Append(" not null");
+                }
                 else if (col.DefaultValue.Length > 0)
                 {
                     sb.Append(" default ");
@@ -422,14 +425,14 @@ namespace System.Data.SQLite
 
             sb.AppendLine(");");
 
-            cmd.CommandText = sb.ToString();
-            cmd.ExecuteNonQuery();
+            this.cmd.CommandText = sb.ToString();
+            this.cmd.ExecuteNonQuery();
         }
 
         public void RenameTable(string tableFrom, string tableTo)
         {
-            cmd.CommandText = string.Format("alter table `{0}` rename to `{1}`;", tableFrom, tableTo);
-            cmd.ExecuteNonQuery();
+            this.cmd.CommandText = string.Format("alter table `{0}` rename to `{1}`;", tableFrom, tableTo);
+            this.cmd.ExecuteNonQuery();
         }
 
         public void CopyAllData(string tableFrom, string tableTo)
@@ -466,7 +469,9 @@ namespace System.Data.SQLite
             foreach (KeyValuePair<string, bool> kv in dic)
             {
                 if (sb.Length > 0)
+                {
                     sb.Append(",");
+                }
 
                 sb.Append("`");
                 sb.Append(kv.Key);
@@ -484,14 +489,14 @@ namespace System.Data.SQLite
             sb2.Append(tableFrom);
             sb2.Append("`;");
 
-            cmd.CommandText = sb2.ToString();
-            cmd.ExecuteNonQuery();
+            this.cmd.CommandText = sb2.ToString();
+            this.cmd.ExecuteNonQuery();
         }
 
         public void DropTable(string table)
         {
-            cmd.CommandText = string.Format("drop table if exists `{0}`", table);
-            cmd.ExecuteNonQuery();
+            this.cmd.CommandText = string.Format("drop table if exists `{0}`", table);
+            this.cmd.ExecuteNonQuery();
         }
 
         public void UpdateTableStructure(string targetTable, SQLiteTable newStructure)
@@ -507,15 +512,9 @@ namespace System.Data.SQLite
             RenameTable(newStructure.TableName, targetTable);
         }
 
-        public void AttachDatabase(string database, string alias)
-        {
-            Execute(string.Format("attach '{0}' as {1};", database, alias));
-        }
+        public void AttachDatabase(string database, string alias) => Execute(string.Format("attach '{0}' as {1};", database, alias));
 
-        public void DetachDatabase(string alias)
-        {
-            Execute(string.Format("detach {0};", alias));
-        }
+        public void DetachDatabase(string alias) => Execute(string.Format("detach {0};", alias));
 
         #endregion
 

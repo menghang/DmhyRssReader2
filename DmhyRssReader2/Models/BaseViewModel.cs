@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DmhyRssReader2.Models
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    abstract class BaseViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Multicast event for property change notifications.

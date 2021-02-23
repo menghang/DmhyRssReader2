@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DmhyRssReader2.Utils;
+﻿using DmhyRssReader2.Utils;
 
 namespace DmhyRssReader2.Models
 {

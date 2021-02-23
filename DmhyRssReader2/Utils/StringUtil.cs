@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DmhyRssReader2.Utils
 {
@@ -23,9 +19,6 @@ namespace DmhyRssReader2.Utils
             }
         }
 
-        public static bool CheckMagnetlink(string url)
-        {
-            return (!string.IsNullOrEmpty(url)) && url.StartsWith("magnet:?xt=urn:btih:", true, CultureInfo.InvariantCulture);
-        }
+        public static bool CheckMagnetlink(string url) => (!string.IsNullOrEmpty(url)) && url.StartsWith("magnet:?xt=urn:btih:", true, CultureInfo.InvariantCulture);
     }
 }

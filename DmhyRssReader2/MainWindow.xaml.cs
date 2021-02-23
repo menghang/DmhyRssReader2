@@ -2,19 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DmhyRssReader2.Helpers;
 using DmhyRssReader2.Models;
 using DmhyRssReader2.Utils;
@@ -33,7 +24,7 @@ namespace DmhyRssReader2
         private Client client;
         private Timer timer;
         private DateTime lastAutoUpdate;
-        private DmhyHelper dmhy;
+        private readonly DmhyHelper dmhy;
         public MainWindow()
         {
             InitializeComponent();
@@ -272,10 +263,7 @@ namespace DmhyRssReader2
                 return false;
             }
         }
-        private async Task<bool> DownloadVideo(string link)
-        {
-            return StringUtil.CheckMagnetlink(link) && await DownloadWithBitcomet(link);
-        }
+        private async Task<bool> DownloadVideo(string link) => StringUtil.CheckMagnetlink(link) && await DownloadWithBitcomet(link);
 
         private void MenuItemEditConfig_Click(object sender, RoutedEventArgs e)
         {
@@ -460,13 +448,10 @@ namespace DmhyRssReader2
             this.view.ConfigManageTab.SetStatus(ConfigManageTabVM.OpStatus.IDLE);
         }
 
-        private void Copy2Clipboard(string text)
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                Clipboard.Clear();
-                Clipboard.SetDataObject(text);
-            });
-        }
+        private void Copy2Clipboard(string text) => this.Dispatcher.Invoke(() =>
+                                                  {
+                                                      Clipboard.Clear();
+                                                      Clipboard.SetDataObject(text);
+                                                  });
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace System.Data.SQLite
+﻿namespace System.Data.SQLite
 {
     public class SQLiteColumn
     {
@@ -18,55 +14,55 @@ namespace System.Data.SQLite
 
         public SQLiteColumn(string colName)
         {
-            ColumnName = colName;
-            PrimaryKey = false;
-            ColDataType = ColType.Text;
-            AutoIncrement = false;
+            this.ColumnName = colName;
+            this.PrimaryKey = false;
+            this.ColDataType = ColType.Text;
+            this.AutoIncrement = false;
         }
 
         public SQLiteColumn(string colName, ColType colDataType)
         {
-            ColumnName = colName;
-            PrimaryKey = false;
-            ColDataType = colDataType;
-            AutoIncrement = false;
+            this.ColumnName = colName;
+            this.PrimaryKey = false;
+            this.ColDataType = colDataType;
+            this.AutoIncrement = false;
         }
 
         public SQLiteColumn(string colName, bool autoIncrement)
         {
-            ColumnName = colName;
+            this.ColumnName = colName;
 
             if (autoIncrement)
             {
-                PrimaryKey = true;
-                ColDataType = ColType.Integer;
-                AutoIncrement = true;
+                this.PrimaryKey = true;
+                this.ColDataType = ColType.Integer;
+                this.AutoIncrement = true;
             }
             else
             {
-                PrimaryKey = false;
-                ColDataType = ColType.Text;
-                AutoIncrement = false;
+                this.PrimaryKey = false;
+                this.ColDataType = ColType.Text;
+                this.AutoIncrement = false;
             }
         }
 
         public SQLiteColumn(string colName, ColType colDataType, bool primaryKey, bool autoIncrement, bool notNull, string defaultValue)
         {
-            ColumnName = colName;
+            this.ColumnName = colName;
 
             if (autoIncrement)
             {
-                PrimaryKey = true;
-                ColDataType = ColType.Integer;
-                AutoIncrement = true;
+                this.PrimaryKey = true;
+                this.ColDataType = ColType.Integer;
+                this.AutoIncrement = true;
             }
             else
             {
-                PrimaryKey = primaryKey;
-                ColDataType = colDataType;
-                AutoIncrement = false;
-                NotNull = notNull;
-                DefaultValue = defaultValue;
+                this.PrimaryKey = primaryKey;
+                this.ColDataType = colDataType;
+                this.AutoIncrement = false;
+                this.NotNull = notNull;
+                this.DefaultValue = defaultValue;
             }
         }
     }

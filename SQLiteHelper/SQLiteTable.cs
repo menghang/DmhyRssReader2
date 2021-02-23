@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace System.Data.SQLite
+﻿namespace System.Data.SQLite
 {
     public class SQLiteTable
     {
@@ -12,9 +8,6 @@ namespace System.Data.SQLite
         public SQLiteTable()
         { }
 
-        public SQLiteTable(string name)
-        {
-            TableName = name;
-        }
+        public SQLiteTable(string name) => this.TableName = name;
     }
 }

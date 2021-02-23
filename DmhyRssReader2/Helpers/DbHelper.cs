@@ -4,9 +4,6 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DmhyRssReader2.Models;
 
 namespace DmhyRssReader2.Helpers
@@ -247,14 +244,16 @@ namespace DmhyRssReader2.Helpers
                     ObservableCollection<ConfigVM> configList = new ObservableCollection<ConfigVM>();
                     foreach (DataRow dr in dt.Rows)
                     {
-                        ConfigVM config = new ConfigVM();
-                        config.Name = dr["Name"] as string;
-                        config.Keyword = dr["Keyword"] as string;
-                        config.TeamId = dr["TeamId"] as string;
-                        config.CategoryId = dr["CategoryId"] as string;
-                        config.LastUpdate = dr["LastUpdate"] as string;
-                        config.LastRefresh = dr["LastRefresh"] as string;
-                        config.Selected = (dr["Selected"] as string) == "True";
+                        ConfigVM config = new ConfigVM
+                        {
+                            Name = dr["Name"] as string,
+                            Keyword = dr["Keyword"] as string,
+                            TeamId = dr["TeamId"] as string,
+                            CategoryId = dr["CategoryId"] as string,
+                            LastUpdate = dr["LastUpdate"] as string,
+                            LastRefresh = dr["LastRefresh"] as string,
+                            Selected = (dr["Selected"] as string) == "True"
+                        };
                         configList.Add(config);
                     }
                     connection.Close();
