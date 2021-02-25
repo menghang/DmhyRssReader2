@@ -66,17 +66,20 @@ namespace DmhyRssReader2
                 if (c.Selected)
                 {
                     List<VideoVM> list = await GetVideoList(c.Keyword, c.CategoryId, c.TeamId);
-                    c.LastRefresh = DateTime.Now.ToString("yyyy-MM-dd dddd HH:mm:ss");
-                    if (list != null && list.Count > 0)
+                    if (list != null)
                     {
-                        c.LastUpdate = list[0].PubDate;
-                        foreach (VideoVM item in list)
+                        c.LastRefresh = DateTime.Now.ToString("yyyy-MM-dd dddd HH:mm:ss");
+                        if (list.Count > 0)
                         {
-                            if (!this.db.VideoExisted(item))
+                            c.LastUpdate = list[0].PubDate;
+                            foreach (VideoVM item in list)
                             {
-                                if (await DownloadVideo(item.MagnetLink))
+                                if (!this.db.VideoExisted(item))
                                 {
-                                    this.db.AddVideoWithCheck(item);
+                                    if (await DownloadVideo(item.MagnetLink))
+                                    {
+                                        this.db.AddVideoWithCheck(item);
+                                    }
                                 }
                             }
                         }
@@ -93,12 +96,16 @@ namespace DmhyRssReader2
             ConfigManageTabVM v = this.view.ConfigManageTab;
             v.SetStatus(ConfigManageTabVM.OpStatus.BUSY);
             ConfigVM c = v.CurrentConfig;
-            v.SearchResults = new ObservableCollection<VideoVM>(await GetVideoList(c.Keyword, c.CategoryId, c.TeamId));
-            foreach (VideoVM item in v.SearchResults)
+            List<VideoVM> list = await GetVideoList(c.Keyword, c.CategoryId, c.TeamId);
+            if (list != null)
             {
-                if (this.db.VideoExisted(item))
+                v.SearchResults = new ObservableCollection<VideoVM>(list);
+                foreach (VideoVM item in v.SearchResults)
                 {
-                    item.Downloaded = true;
+                    if (this.db.VideoExisted(item))
+                    {
+                        item.Downloaded = true;
+                    }
                 }
             }
             v.SetStatus(ConfigManageTabVM.OpStatus.IDLE);
@@ -119,7 +126,7 @@ namespace DmhyRssReader2
                 int t = StringUtil.Str2UInt16(teamId, out int team) ? team : 0;
                 list = await this.dmhy.SearchAsync(keyword, c, t);
             }
-            return list ?? new List<VideoVM>();
+            return list;
         }
 
         private void MenuItemOpenVideoPage_Click(object sender, RoutedEventArgs e)
@@ -325,15 +332,18 @@ namespace DmhyRssReader2
                 if (c.Selected)
                 {
                     ObservableCollection<VideoVM> list = new ObservableCollection<VideoVM>(await GetVideoList(c.Keyword, c.CategoryId, c.TeamId));
-                    c.LastRefresh = DateTime.Now.ToString("yyyy-MM-dd dddd HH:mm:ss");
-                    if (list != null && list.Count > 0)
+                    if (list != null)
                     {
-                        c.LastUpdate = list[0].PubDate;
-                        foreach (VideoVM item in list)
+                        c.LastRefresh = DateTime.Now.ToString("yyyy-MM-dd dddd HH:mm:ss");
+                        if (list.Count > 0)
                         {
-                            if (!this.db.VideoExisted(item))
+                            c.LastUpdate = list[0].PubDate;
+                            foreach (VideoVM item in list)
                             {
-                                v.UpdateList.Add(item);
+                                if (!this.db.VideoExisted(item))
+                                {
+                                    v.UpdateList.Add(item);
+                                }
                             }
                         }
                     }
