@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
@@ -20,7 +20,25 @@ namespace DmhyRssReader2.Helpers
         private const string TeamRss = "/topics/rss/team_id/{0}/rss.xml";
         private const string SortRss = "/topics/rss/sort_id/{0}/rss.xml";
         private const string AuthorRss = "/topics/rss/user_id/{0}/rss.xml";
-        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4418.0 Safari/537.36";
+        private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4418.0 Safari/537.36";
+
+        private static readonly HttpClient client = CreateHttpClient();
+
+        private static HttpClient CreateHttpClient()
+        {
+            HttpClientHandler httpClientHandler = new HttpClientHandler
+            {
+                Proxy = WebRequest.GetSystemWebProxy(),
+                UseProxy = true,
+                AllowAutoRedirect = true
+            };
+            HttpClient httpClient = new HttpClient(httpClientHandler)
+            {
+                Timeout = TimeSpan.FromSeconds(120)
+            };
+            httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
+            return httpClient;
+        }
 
         public async Task<List<VideoVM>> SearchAsync(string keyword, int sort, int team)
         {
@@ -52,38 +70,19 @@ namespace DmhyRssReader2.Helpers
                     param2 = (string.IsNullOrEmpty(param2) ? param2 + "?" : param2 + "&") + p.Key + "=" + p.Value;
                 }
             }
-
-            HttpWebRequest request = WebRequest.Create(BaseSiteUrl + url + param2) as HttpWebRequest;
-
-            request.UserAgent = UserAgent;
-            request.Method = "GET";
-            request.Proxy = WebRequest.GetSystemWebProxy();
-
-            request.Timeout = 1000;
-            request.ReadWriteTimeout = 1000;
-
+            string fullUrl = BaseSiteUrl + url + param2;
             try
             {
-                using (HttpWebResponse response = (await request.GetResponseAsync()) as HttpWebResponse)
+                string text = await client.GetStringAsync(BaseSiteUrl + url + param2);
+                using (XmlReader xmlReader = XmlReader.Create(new StringReader(text)))
                 {
-                    using (Timer t = new Timer((o) => response?.Dispose(), null, Timeout.InfiniteTimeSpan, TimeSpan.FromSeconds(30)))
+                    SyndicationFeed feed = SyndicationFeed.Load(xmlReader);
+                    List<VideoVM> videos = new List<VideoVM>();
+                    foreach (SyndicationItem item in feed.Items)
                     {
-                        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-                        {
-                            string text = await sr.ReadToEndAsync();
-                            t.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
-                            using (XmlReader xmlReader = XmlReader.Create(new StringReader(text)))
-                            {
-                                SyndicationFeed feed = SyndicationFeed.Load(xmlReader);
-                                List<VideoVM> videos = new List<VideoVM>();
-                                foreach (SyndicationItem item in feed.Items)
-                                {
-                                    videos.Add(new VideoVM(item));
-                                }
-                                return videos;
-                            }
-                        }
+                        videos.Add(new VideoVM(item));
                     }
+                    return videos;
                 }
             }
             catch (Exception ex)
