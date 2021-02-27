@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,13 +31,17 @@ namespace DmhyRssReader2.Helpers
             {
                 Proxy = WebRequest.GetSystemWebProxy(),
                 UseProxy = true,
-                AllowAutoRedirect = true
+                AllowAutoRedirect = true,
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                UseDefaultCredentials = true
+
             };
             HttpClient httpClient = new HttpClient(httpClientHandler)
             {
                 Timeout = TimeSpan.FromSeconds(120)
             };
             httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
+            httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("GZIP"));
             return httpClient;
         }
 
