@@ -70,7 +70,6 @@ namespace DmhyRssReader2.Helpers
                     param2 = (string.IsNullOrEmpty(param2) ? param2 + "?" : param2 + "&") + p.Key + "=" + p.Value;
                 }
             }
-            string fullUrl = BaseSiteUrl + url + param2;
             try
             {
                 string text = await client.GetStringAsync(BaseSiteUrl + url + param2);
