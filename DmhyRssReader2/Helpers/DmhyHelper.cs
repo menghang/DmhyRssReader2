@@ -32,7 +32,7 @@ namespace DmhyRssReader2.Helpers
                 Proxy = WebRequest.GetSystemWebProxy(),
                 UseProxy = true,
                 AllowAutoRedirect = true,
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                AutomaticDecompression = DecompressionMethods.GZip,
                 UseDefaultCredentials = true
 
             };
