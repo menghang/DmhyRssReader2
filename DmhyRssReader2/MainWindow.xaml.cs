@@ -132,16 +132,21 @@ namespace DmhyRssReader2
         private void MenuItemOpenVideoPage_Click(object sender, RoutedEventArgs e)
         {
             VideoVM v = this.view.ConfigManageTab.SelectedResult;
+            OpenLinkWithChrome(v.Link);
+        }
+
+        private void OpenLinkWithChrome(string link)
+        {
             try
             {
-                Process.Start("chrome.exe", v.Link);
+                Process.Start("chrome.exe", link);
             }
             catch (Exception ex)
             {
                 LogUtil.Log(ex);
                 try
                 {
-                    Process.Start(v.Link);
+                    Process.Start(link);
                 }
                 catch (Exception ex2)
                 {
@@ -356,22 +361,7 @@ namespace DmhyRssReader2
         private void MenuItemOpenVideoPage2_Click(object sender, RoutedEventArgs e)
         {
             VideoVM v = this.view.ConfigManageTab.SelectedVideo;
-            try
-            {
-                Process.Start("chrome.exe", v.Link);
-            }
-            catch (Exception ex)
-            {
-                LogUtil.Log(ex);
-                try
-                {
-                    Process.Start(v.Link);
-                }
-                catch (Exception ex2)
-                {
-                    LogUtil.Log(ex2);
-                }
-            }
+            OpenLinkWithChrome(v.Link);
         }
 
         private void MenuItemCopyMagnetLink2_Click(object sender, RoutedEventArgs e)
