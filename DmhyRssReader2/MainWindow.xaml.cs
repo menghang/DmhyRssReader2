@@ -23,7 +23,6 @@ namespace DmhyRssReader2
         private readonly DbHelper db;
         private Client client;
         private Timer timer;
-        private DateTime lastAutoUpdate;
         private readonly DmhyHelper dmhy;
         public MainWindow()
         {
@@ -32,7 +31,6 @@ namespace DmhyRssReader2
             this.db = new DbHelper();
             this.view.ConfigManageTab.ConfigList = this.db.DatabaseInit();
             this.view.ConfigManageTab.AutoUpdateEvent += ConfigManageTab_AutoUpdateEvent;
-            this.lastAutoUpdate = DateTime.MinValue;
             this.dmhy = new DmhyHelper();
             this.DataContext = this.view;
         }
@@ -52,7 +50,6 @@ namespace DmhyRssReader2
         private async void TimeUp(object o)
         {
             await UpdateAndDownloadVideo();
-            this.lastAutoUpdate = DateTime.Now;
             this.timer.Change(TimeSpan.FromMinutes(30), Timeout.InfiniteTimeSpan);
         }
 
