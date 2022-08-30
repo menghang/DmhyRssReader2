@@ -73,42 +73,42 @@ namespace DmhyRssReader2.Helpers
 
                     foreach (DataRow dr2 in dt2.Rows)
                     {
-                        if ((dr2["type"] as string) == "text" && (dr2["name"] as string) == "Name" && Convert.ToInt32(dr2["pk"]) == 0)
+                        if ((dr2["type"] as string) == "TEXT" && (dr2["name"] as string) == "Name" && Convert.ToInt32(dr2["pk"]) == 0)
                         {
                             flag1[0] = true;
                             continue;
                         }
-                        if ((dr2["type"] as string) == "text" && (dr2["name"] as string) == "Keyword" && Convert.ToInt32(dr2["pk"]) == 0)
+                        if ((dr2["type"] as string) == "TEXT" && (dr2["name"] as string) == "Keyword" && Convert.ToInt32(dr2["pk"]) == 0)
                         {
                             flag1[1] = true;
                             continue;
                         }
-                        if ((dr2["type"] as string) == "text" && (dr2["name"] as string) == "TeamId" && Convert.ToInt32(dr2["pk"]) == 0)
+                        if ((dr2["type"] as string) == "TEXT" && (dr2["name"] as string) == "TeamId" && Convert.ToInt32(dr2["pk"]) == 0)
                         {
                             flag1[2] = true;
                             continue;
                         }
-                        if ((dr2["type"] as string) == "text" && (dr2["name"] as string) == "CategoryId" && Convert.ToInt32(dr2["pk"]) == 0)
+                        if ((dr2["type"] as string) == "TEXT" && (dr2["name"] as string) == "CategoryId" && Convert.ToInt32(dr2["pk"]) == 0)
                         {
                             flag1[3] = true;
                             continue;
                         }
-                        if ((dr2["type"] as string) == "text" && (dr2["name"] as string) == "LastUpdate" && Convert.ToInt32(dr2["pk"]) == 0)
+                        if ((dr2["type"] as string) == "TEXT" && (dr2["name"] as string) == "LastUpdate" && Convert.ToInt32(dr2["pk"]) == 0)
                         {
                             flag1[4] = true;
                             continue;
                         }
-                        if ((dr2["type"] as string) == "text" && (dr2["name"] as string) == "LastRefresh" && Convert.ToInt32(dr2["pk"]) == 0)
+                        if ((dr2["type"] as string) == "TEXT" && (dr2["name"] as string) == "LastRefresh" && Convert.ToInt32(dr2["pk"]) == 0)
                         {
                             flag1[5] = true;
                             continue;
                         }
-                        if ((dr2["type"] as string) == "text" && (dr2["name"] as string) == "Hash" && Convert.ToInt32(dr2["pk"]) == 1)
+                        if ((dr2["type"] as string) == "TEXT" && (dr2["name"] as string) == "Hash" && Convert.ToInt32(dr2["pk"]) == 1)
                         {
                             flag1[6] = true;
                             continue;
                         }
-                        if ((dr2["type"] as string) == "text" && (dr2["name"] as string) == "Selected" && Convert.ToInt32(dr2["pk"]) == 0)
+                        if ((dr2["type"] as string) == "TEXT" && (dr2["name"] as string) == "Selected" && Convert.ToInt32(dr2["pk"]) == 0)
                         {
                             flag1[7] = true;
                             continue;
@@ -125,52 +125,52 @@ namespace DmhyRssReader2.Helpers
 
                     foreach (DataRow dr3 in dt3.Rows)
                     {
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "Title" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "Title" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[0] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "Link" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "Link" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[1] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "PubDate" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "PubDate" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[2] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "Description" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "Description" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[3] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "MagnetLink" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "MagnetLink" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[4] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "Author" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "Author" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[5] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "Guid" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "Guid" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[6] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "Category" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "Category" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[7] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "CategoryLink" && Convert.ToInt32(dr3["pk"]) == 0)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "CategoryLink" && Convert.ToInt32(dr3["pk"]) == 0)
                         {
                             flag2[8] = true;
                             continue;
                         }
-                        if ((dr3["type"] as string) == "text" && (dr3["name"] as string) == "Hash" && Convert.ToInt32(dr3["pk"]) == 1)
+                        if ((dr3["type"] as string) == "TEXT" && (dr3["name"] as string) == "Hash" && Convert.ToInt32(dr3["pk"]) == 1)
                         {
                             flag2[9] = true;
                             continue;
