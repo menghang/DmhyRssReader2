@@ -16,7 +16,7 @@ namespace DmhyRssReader2.Helpers
 {
     class DmhyHelper
     {
-        private const string BaseSiteUrl = "https://dmhy.anoneko.com";
+        private const string BaseSiteUrl = "https://share.dmhy.org";
         private const string SearchRss = "/topics/rss/rss.xml";
         private const string TeamRss = "/topics/rss/team_id/{0}/rss.xml";
         private const string SortRss = "/topics/rss/sort_id/{0}/rss.xml";
