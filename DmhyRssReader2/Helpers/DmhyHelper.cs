@@ -22,6 +22,8 @@ namespace DmhyRssReader2.Helpers
         private const string SortRss = "/topics/rss/sort_id/{0}/rss.xml";
         private const string AuthorRss = "/topics/rss/user_id/{0}/rss.xml";
         private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4418.0 Safari/537.36";
+        private const string ProxyHost = "127.0.0.1";
+        private const int ProxyPort = 10809;
 
         private static readonly HttpClient client = CreateHttpClient();
 
@@ -29,7 +31,8 @@ namespace DmhyRssReader2.Helpers
         {
             HttpClientHandler httpClientHandler = new HttpClientHandler
             {
-                Proxy = WebRequest.GetSystemWebProxy(),
+                //Proxy = WebRequest.GetSystemWebProxy(),
+                Proxy = new WebProxy(ProxyHost, ProxyPort),
                 UseProxy = true,
                 AllowAutoRedirect = true,
                 AutomaticDecompression = DecompressionMethods.GZip,
