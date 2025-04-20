@@ -7,16 +7,10 @@
             get;
             private set;
         }
-        public DownloadTrVM DownloadTrTab
-        {
-            get;
-            private set;
-        }
 
         public MainWindowVM()
         {
             this.ConfigManageTab = new ConfigManageTabVM();
-            this.DownloadTrTab = new DownloadTrVM();
         }
     }
 }

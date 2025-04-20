@@ -9,8 +9,6 @@ using System.Windows;
 using DmhyRssReader2.Helpers;
 using DmhyRssReader2.Models;
 using DmhyRssReader2.Utils;
-using Transmission.API.RPC;
-using Transmission.API.RPC.Entity;
 
 namespace DmhyRssReader2
 {
@@ -21,7 +19,6 @@ namespace DmhyRssReader2
     {
         private readonly MainWindowVM view;
         private readonly DbHelper db;
-        private Client client;
         private Timer timer;
         private readonly DmhyHelper dmhy;
         public MainWindow()
@@ -232,21 +229,6 @@ namespace DmhyRssReader2
                 }
             }
             this.view.ConfigManageTab.SetStatus(ConfigManageTabVM.OpStatus.IDLE);
-        }
-
-        private async void ButtonTestServer_Click(object sender, RoutedEventArgs e)
-        {
-            DownloadTrVM v = this.view.DownloadTrTab;
-            this.client = new Client(v.FullPath);
-            SessionInfo sessionInfo = await this.client.GetSessionInformationAsync();
-            StringBuilder sb = new StringBuilder();
-            sb.Append("程序版本:");
-            sb.Append(sessionInfo.Version);
-            sb.Append(Environment.NewLine);
-            sb.Append("RPC版本:");
-            sb.Append(sessionInfo.RpcVersion);
-            v.TestResult = sb.ToString();
-
         }
 
         private async Task<bool> DownloadWithBitcomet(string link)
